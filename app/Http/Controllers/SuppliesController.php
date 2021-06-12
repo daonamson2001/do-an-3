@@ -49,6 +49,10 @@ class SuppliesController extends Controller
      */
     public function store(Request $request, Supplies $supplies)
     {
+        $check = $supplies->where('sup_name', $request->sup_name)->get();
+        if(count($check)){
+            return response()->json('abc', Response::HTTP_OK);
+        }
         try {
             $supplies->create($request->all());
             return response()->json($request->sup_name, Response::HTTP_OK);

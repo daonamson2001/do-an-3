@@ -25,7 +25,11 @@ $(document).ready(function(){
                 },
                 success: function(data){
                     console.log(data);
-                    alert("Đã Thêm Vật Tư Mới: " + data);
+                    if(data == 'abc'){
+                        alert('Đã tồn tại vật tư');
+                    }else{
+                        alert("Đã Thêm Vật Tư Mới: " + data);
+                    }
                     window.location.reload();
                 },
                 error: function(data){

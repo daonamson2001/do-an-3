@@ -14,16 +14,17 @@ class SuppliesSeederTable extends Seeder
      */
     public function run()
     {
-        $faker = \Faker\Factory::create();
-        for ($i=1; $i < 200; $i++) { 
-            # code...       
-             DB::table('supplies')->insert([
-                'sup_name'=>$faker->lastName,
-                'sup_amount'=>$faker->numberBetween($min = 1, $max = 100),
-                'sup_total'=>$faker->randomNumber,
-                'unit_id'=>$faker->numberBetween($min = 1, $max = 4),
-            ]);
-        }
+        // $faker = \Faker\Factory::create();
+        // for ($i=1; $i < 200; $i++) { 
+        //     # code...       
+        //      DB::table('supplies')->insert([
+        //         'sup_name'=>$faker->lastName,
+        //         'sup_amount'=>$faker->numberBetween($min = 1, $max = 100),
+        //         'sup_total'=>$faker->randomNumber,
+        //         'unit_id'=>$faker->numberBetween($min = 1, $max = 4),
+        //     ]);
+        // }
+        
     }
 }
 

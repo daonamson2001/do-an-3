@@ -22,7 +22,7 @@
 
             <div class="form-group row">
                 <label class="col-md-4 text-md-right font-weight-bold" >Số Lượng</label>
-                <input type="number" class="col-md-6 form-control" id="c-sup_amount" min="1" required/>
+                <input type="number" class="col-md-6 form-control" id="c-sup_amount" min="0" required/>
             </div>
 
             <div class="form-group row">
