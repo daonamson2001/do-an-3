@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             UsersSeederTable::class,
             // InformationSeederTable::class,
             DistrictSeederTable::class,
-            ProducerSeederTable::class,
+            // ProducerSeederTable::class,
             UnitsSeederTable::class,
             QualitiesSeederTable::class,
             // SuppliesSeederTable::class,

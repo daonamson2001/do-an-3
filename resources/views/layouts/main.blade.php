@@ -3,40 +3,32 @@
 @section('content')
 <div class="row">
   <div class="col-sm-4">
-    <h2>About Me</h2>
-    <h5>Photo of me:</h5>
-    <div class="fakeimg">Fake Image</div>
-    <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
-    <h3>Some Links</h3>
-    <p>Lorem ipsum dolor sit ame.</p>
-    <ul class="nav nav-pills flex-column">
-      <li class="nav-item">
-        <a class="nav-link active" href="#">Active</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#">Disabled</a>
-      </li>
-    </ul>
-    <hr class="d-sm-none">
+    <h2>Điện lực Khánh Hòa</h2>
+    <h5>Trung tâm điều hành điện lực Khánh Hòa:</h5>
+    <div><img src="{{asset('img/image1.jpg')}}" alt="tru so Khanh Hoa" style="width: 300px; height:200px"></div>
+    <p><strong>Quy mô :</strong> Tổng diện tích sàn xây dựng: 12.875m² (chưa kể tầng hầm và mái) gồm một tầng hầm, 12 tầng cao và tầng kỹ thuật dùng để làm văn phòng làm việc và trung tâm điều độ - điều hành hệ thống điện.</p>
+    <p><strong>Địa điểm : </strong>11 Lý Thánh Tôn, TP Nha Trang, Khánh Hòa</p>
   </div>
   <div class="col-sm-8">
-    <h2>TITLE HEADING</h2>
-    <h5>Title description, Dec 7, 2017</h5>
-    <div class="fakeimg">Fake Image</div>
-    <p>Some text..</p>
-    <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+    <h2>Tổng quan về Tập đoàn Điện lực Việt Nam</h2>
+    <p>Tổng công ty Điện lực Việt Nam được thành lập theo Quyết định số 562/QĐ-TTg ngày 10/10/1994 của Thủ tướng Chính phủ trên cơ sở sắp xếp lại các đơn vị thuộc Bộ Năng lượng; tổ chức và hoạt động theo Điều lệ ban hành kèm theo Nghị định số 14/CP ngày 27/1/1995 của Chính phủ.</p>
+    <p>Ngày 22/6/2006, Thủ tướng Chính phủ ra Quyết định số 147/QĐ-TTg về việc phê duyệt Đề án thí điểm hình thành Tập đoàn Điện lực Việt Nam và Quyết định 148/2006/QĐ-TTG về việc thành lập Công ty mẹ - Tập đoàn Điện lực Việt Nam.</p>
+    <p>Đến ngày 25/6/2010, Thủ tướng Chính phủ ban hành Quyết định số 975/QĐ-TTg về việc chuyển Công ty mẹ - Tập đoàn Điện lực Việt Nam thành công ty trách nhiệm hữu hạn một thành viên thuộc sở hữu Nhà nước.</p>
+    <p>Ngày 28/2/2018, Thủ tướng Chính phủ ban hành Nghị định số 26/2018/NĐ-CP về Điều lệ tổ chức và hoạt động của Tập đoàn Điện lực Việt Nam. Nghị định có hiệu lực thi hành kể từ ngày ban hành (thay thế cho Nghị định số 205/2013/NĐ-CP ngày 6/12/2013), với một số nội dung chính như sau:</p>
+    <p><strong>* Tên gọi:</strong></p>
+    <p>- Tên gọi đầy đủ: TẬP ĐOÀN ĐIỆN LỰC VIỆT NAM.</p>
+    <p>- Tên giao dịch: TẬP ĐOÀN ĐIỆN LỰC VIỆT NAM.</p>
+    <p>- Tên giao dịch tiếng Anh: VIETNAM ELECTRICITY.</p>
+    <p>- Tên gọi tắt: EVN.</p>
+    <p><strong>* Loại hình doanh nghiệp:</strong> Công ty trách nhiệm hữu hạn một thành viên</p>
+    <p><strong>* Ngành, nghề kinh doanh chính:</strong></p>
+    <p>- Sản xuất, truyền tải, phân phối và kinh doanh mua bán điện năng; chỉ huy điều hành hệ thống sản xuất, truyền tải, phân phối và phân bổ điện năng trong hệ thống điện quốc gia;</p>
+    <p>- Xuất nhập khẩu điện năng;</p>
+    <p>- Đầu tư và quản lý vốn đầu tư các dự án điện;</p>
+    <p>- Quản lý, vận hành, sửa chữa, bảo dưỡng, đại tu, cải tạo, nâng cấp thiết bị điện, cơ khí, điều khiển, tự động hóa thuộc dây truyền sản xuất, truyền tải và phân phối điện, công trình điện; thí nghiệm điện.</p>
+    <p>- Tư vấn quản lý dự án, tư vấn khảo sát thiết kế, tư vấn lập dự án đầu tư, tư vấn đấu thầu, lập dự toán, tư vấn thẩm tra và giám sát thi công công trình nguồn điện, các công trình đường dây và trạm biến áp.</p>
+
     <br>
-    <h2>TITLE HEADING</h2>
-    <h5>Title description, Sep 2, 2017</h5>
-    <div class="fakeimg">Fake Image</div>
-    <p>Some text..</p>
-    <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
   </div>
 </div>
 @endsection
