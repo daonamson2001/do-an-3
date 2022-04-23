@@ -16,18 +16,18 @@ class SuppliesController extends Controller
      */
     public function index(Request $request, Supplies $supplies)
     {
-        $units = Unit::select('id','unit_name')->get();     
-        if(isset($_GET['query'])){
+        $units = Unit::select('id', 'unit_name')->get();
+        if (isset($_GET['query'])) {
             $search = $_GET['query'];
-            $datas = $supplies->where('sup_name',   'LIKE', '%'.$search.'%')
-                            ->orWhere('id',         'LIKE', '%'.$search.'%')
-                            ->orWhere('sup_amount', 'LIKE', '%'.$search.'%')
-                            ->paginate(20);
-            $datas->appends($request->all());                
-            return view('danhmuc.vattu.index')->with(compact('datas','units'));    
-        }else{
+            $datas = $supplies->where('sup_name',   'LIKE', '%' . $search . '%')
+                ->orWhere('id',         'LIKE', '%' . $search . '%')
+                ->orWhere('sup_amount', 'LIKE', '%' . $search . '%')
+                ->paginate(20);
+            $datas->appends($request->all());
+            return view('danhmuc.vattu.index')->with(compact('datas', 'units'));
+        } else {
             $datas = $supplies->paginate(20);
-            return view('danhmuc.vattu.index')->with(compact('datas','units'));
+            return view('danhmuc.vattu.index')->with(compact('datas', 'units'));
         }
     }
 
@@ -50,7 +50,7 @@ class SuppliesController extends Controller
     public function store(Request $request, Supplies $supplies)
     {
         $check = $supplies->where('sup_name', $request->sup_name)->get();
-        if(count($check)){
+        if (count($check)) {
             return response()->json('abc', Response::HTTP_OK);
         }
         try {
@@ -59,7 +59,7 @@ class SuppliesController extends Controller
         } catch (\Throwable $th) {
             //throw $th;
             return response()->json('abc', Response::HTTP_OK);
-        } 
+        }
     }
 
     /**
@@ -113,7 +113,7 @@ class SuppliesController extends Controller
     public function destroy($id, Supplies $supplies)
     {
         $datas = $supplies->find($id);
-                 $supplies->destroy($id);
+        $supplies->destroy($id);
         return response()->json($datas, Response::HTTP_OK);
     }
 }

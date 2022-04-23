@@ -27,32 +27,36 @@ use App\Http\Controllers\NotifiExportController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/',                 [LoginController::class, 'index'])          ->name('login')->middleware('loginMiddleware');
-Route::post('checklogin',       [LoginController::class, 'checklogin'])     ->name('checklogin');
+
+Route::get('/', [LoginController::class, 'index'])->name('login')->middleware('loginMiddleware');
+Route::post('checklogin',       [LoginController::class, 'checklogin'])->name('checklogin');
 // Route::get('logoutOher', function () {
 //     auth()->logoutOtherDevices('password');
 //     return redirect('/');
 // });
-Route::get('dangxuat',          [LoginController::class, 'logout'])         ->name('logout');
-Route::get('doimatkhau',        [LoginController::class, 'changePass'])     ->name('changePass');
+Route::get('dangxuat',          [LoginController::class, 'logout'])->name('logout');
+Route::get('doimatkhau',        [LoginController::class, 'changePass'])->name('changePass');
 Route::post('checkChangePass',  [LoginController::class, 'checkChangePass'])->name('checkChangePass');
+Route::get('postforget', function () {
+    return view('login.forgetpass');
+})->name('forgetpass');
 
 Route::get('home', function () {
     return view('layouts.main');
 })->name('home')->middleware('checkLogin');
 
 Route::prefix('hethong')->middleware('checkLogin')->group(function () {
-    Route::resource('dangky',    RegistrationController::class) ->only(['index', 'store']);
-    Route::resource('thongtin',  InformationController::class)  ->only(['index', 'update', 'edit']);
+    Route::resource('dangky',    RegistrationController::class)->only(['index', 'store']);
+    Route::resource('thongtin',  InformationController::class)->only(['index', 'update', 'edit']);
 });
 
 Route::prefix('chucnang')->middleware('checkLogin')->group(function () {
-    Route::get('nhap/deleteRow', [ImportController::class, 'deleteRow']); 
-    Route::post('nhap/print', [ImportController::class, 'printPDF'])->name('nhap.print'); 
+    Route::get('nhap/deleteRow', [ImportController::class, 'deleteRow']);
+    Route::post('nhap/print', [ImportController::class, 'printPDF'])->name('nhap.print');
     Route::resource('nhap', ImportController::class);
 
-    Route::get('xuat/deleteRow', [ExportController::class, 'deleteRow']); 
-    Route::post('xuat/print', [ExportController::class, 'printPDF'])->name('xuat.print'); 
+    Route::get('xuat/deleteRow', [ExportController::class, 'deleteRow']);
+    Route::post('xuat/print', [ExportController::class, 'printPDF'])->name('xuat.print');
     Route::resource('xuat', ExportController::class);
 
     Route::prefix('baocao')->group(function () {
@@ -80,7 +84,7 @@ Route::prefix('chucnang')->middleware('checkLogin')->group(function () {
 
 
 
-Route::prefix('danhmuc')->middleware('checkLogin')->group( function () {
+Route::prefix('danhmuc')->middleware('checkLogin')->group(function () {
     Route::resource('nhanvien',   UserController::class);
     Route::resource('chatluong',  QualityController::class);
     Route::resource('donvitinh',  UnitController::class);
@@ -94,8 +98,12 @@ Route::prefix('danhmuc')->middleware('checkLogin')->group( function () {
 });
 
 Route::prefix('trogiup')->middleware('checkLogin')->group(function () {
-    Route::resource('lienhe', ContactController::class)        ->only('index', 'store');
-    Route::resource('phanhoi', FeedBackController::class)      ->only('index', 'store');
-    Route::get('thongtinphanmem', function () {return view('trogiup.thongtin');})->name('thongtinphanmem');
-    Route::get('huongdan', function () {return view('trogiup.huongdan');})->name('huongdan');
+    Route::resource('lienhe', ContactController::class)->only('index', 'store');
+    Route::resource('phanhoi', FeedBackController::class)->only('index', 'store');
+    Route::get('thongtinphanmem', function () {
+        return view('trogiup.thongtin');
+    })->name('thongtinphanmem');
+    Route::get('huongdan', function () {
+        return view('trogiup.huongdan');
+    })->name('huongdan');
 });

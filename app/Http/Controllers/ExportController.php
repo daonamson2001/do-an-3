@@ -12,6 +12,7 @@ use App\Models\Export;
 use App\Models\DetailExport;
 use PDF;
 
+
 class ExportController extends Controller
 {
     /**
@@ -21,9 +22,9 @@ class ExportController extends Controller
      */
     public function index()
     {
-        $exps  = Export::   all();
+        $exps  = Export::all();
         // $pros  = Producer:: select('id','pro_name')  ->get();
-        $sups  = Supplies:: all();   
+        $sups  = Supplies::all();
         // $quas  = Quality::  select('id', 'qua_name') ->get();
         // $datas = $quas;
         return view('chucnang.xuat.index')->with(compact('exps',  'sups'));
@@ -54,7 +55,7 @@ class ExportController extends Controller
         // return response()->json($exp_code->exp_code, Response::HTTP_OK);
         $err = 0;
         try {
-            if(!($exp_code)){
+            if (!($exp_code)) {
                 Export::create([
                     'exp_code' => $request->exp_code,
                     'exp_date' => $request->exp_date,
@@ -78,18 +79,17 @@ class ExportController extends Controller
 
                 $sup = Supplies::find($request->sup_id);
                 $amount = $sup->sup_amount - $request->de_amount;
-                if($amount < 0){
+                if ($amount < 0) {
                     $err = 1;
                     return response()->json($err, Response::HTTP_OK);
-                }else{
+                } else {
                     $sup_total = $sup->sup_total - $request->de_into_money;
                     Supplies::where('id', $request->sup_id)->update([
                         'sup_amount' => $amount,
-                        'sup_total' =>$sup_total
+                        'sup_total' => $sup_total
                     ]);
                     return response()->json($err, Response::HTTP_OK);
                 }
-               
             } catch (\Throwable $th) {
                 $err = 2;
                 return response()->json($th, Response::HTTP_OK);
@@ -145,25 +145,24 @@ class ExportController extends Controller
         $exp_code = Export::where('exp_code', $id)->first();
         $delete_Row = DetailExport::where('exp_id', $exp_code->id)->get();
         try {
-            for ($i=1; $i <= count($delete_Row); $i++) { 
-                $data = DetailExport::where('id', $delete_Row[$i-1]->id)->first();
+            for ($i = 1; $i <= count($delete_Row); $i++) {
+                $data = DetailExport::where('id', $delete_Row[$i - 1]->id)->first();
                 $sup_id = $data->sup_id;
-                $sup = Supplies::where('id' , $sup_id)->first();
+                $sup = Supplies::where('id', $sup_id)->first();
                 $sup_amount = $sup->sup_amount + $data->de_amount;
                 $sup_total = $sup->sup_total + $data->de_into_money;
-                Supplies::where('id' , $sup_id)->update([
+                Supplies::where('id', $sup_id)->update([
                     'sup_amount' => $sup_amount,
                     'sup_total' => $sup_total,
                 ]);
             }
-    
+
             DetailExport::where('exp_id', $exp_code->id)->delete();
             Export::where('exp_code', $id)->delete();
             return response()->json($exp_code, Response::HTTP_OK);
         } catch (\Throwable $th) {
             return response()->json($th, Response::HTTP_OK);
         }
-        
     }
 
     public function deleteRow(Request $request)
@@ -171,27 +170,26 @@ class ExportController extends Controller
         $r = $request->all();
         $exp_code = Export::where('exp_code', $request->exp_code)->first();
         $delete_Row = DetailExport::where('exp_id', $exp_code->id)->get();
-        for ($i=1; $i <= count($delete_Row); $i++) { 
-           if($i == $request->index){
-                $data = DetailExport::where('id', $delete_Row[$i-1]->id)->first();
+        for ($i = 1; $i <= count($delete_Row); $i++) {
+            if ($i == $request->index) {
+                $data = DetailExport::where('id', $delete_Row[$i - 1]->id)->first();
                 // $de_amount = $data->de_amount;
                 // $de_into_money = $data->de_into_money;
                 $sup_id = $data->sup_id;
-                $sup = Supplies::where('id' , $sup_id)->first();
+                $sup = Supplies::where('id', $sup_id)->first();
                 $sup_amount = $sup->sup_amount + $data->de_amount;
                 try {
                     $sup_total = $sup->sup_total + $data->de_into_money;
-                    Supplies::where('id' , $sup_id)->update([
+                    Supplies::where('id', $sup_id)->update([
                         'sup_amount' => $sup_amount,
                         'sup_total' => $sup_total,
                     ]);
 
-                    $de_id = DetailExport::where('id', $delete_Row[$i-1]->id)->delete();
+                    $de_id = DetailExport::where('id', $delete_Row[$i - 1]->id)->delete();
                     return response()->json($de_id, Response::HTTP_OK);
                 } catch (\Throwable $th) {
                     return response()->json($th, Response::HTTP_OK);
                 }
-                
             }
         }
         return response()->json($r, Response::HTTP_OK);
@@ -202,8 +200,9 @@ class ExportController extends Controller
         $exp_code = $request->exp_code;
         $exps = Export::where('exp_code', $exp_code)->first();
         $detail = DetailExport::where('exp_id', $exps->id)->get();
-        $pdf = PDF::loadView('chucnang.xuat.printPDF', compact('exps', 'detail'));
-        return $pdf->download($exp_code.'.pdf');
+        $pdf = app('dompdf.wrapper');
+        $pdf = $pdf->loadView('chucnang.xuat.printPDF', compact('exps', 'detail'));
+        return $pdf->download($exp_code . '.pdf');
         // return View::make($pdf->download($exp_code.'.pdf'));
         // return $pdf->stream();
         // return view('chucnang.nhap.printPDF')->with(compact('exps', 'detail'));

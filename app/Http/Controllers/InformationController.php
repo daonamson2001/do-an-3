@@ -17,7 +17,7 @@ class InformationController extends Controller
     public function index()
     {
         $infor_company = Information::first();
-        return view('hethong.information')->with('infor_company', $infor_company);
+        return view('hethong.information', ["infor_company" => $infor_company]);
     }
 
     /**
@@ -73,22 +73,23 @@ class InformationController extends Controller
      */
     public function update(InforPost $request, $id)
     {
-        $validated = $request->validated(); 
+        $validated = $request->validated();
         try {
             //code...
-            Information::where('id', 1)->update([       
-                 'inf_name'   => $request->inf_name,
+            Information::where('id', 1)->update([
+                'inf_name'   => $request->inf_name,
                 'inf_address' => $request->inf_address,
                 'inf_phone'   => $request->inf_phone,
                 'inf_email'   => $request->inf_email,
                 'inf_website' => $request->inf_website,
             ]);
 
-            return redirect(route('thongtin.index'))->with('alert_success','Sửa Thông Tin Công Ty Thành Công!');
+            return redirect(route('thongtin.index'))->with('alert_success', 'Sửa Thông Tin Công Ty Thành Công!');
         } catch (\Exception $e) {
             //throw $th;
-            var_dump($e);die;
-            return redirect(route('thongtin.index'))->with('alert_error','Sửa Thông Tin Công Ty Thất bại!');
+            var_dump($e);
+            die;
+            return redirect(route('thongtin.index'))->with('alert_error', 'Sửa Thông Tin Công Ty Thất bại!');
         }
     }
 

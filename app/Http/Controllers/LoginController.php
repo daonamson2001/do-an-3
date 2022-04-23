@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
@@ -13,30 +14,30 @@ use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         // Auth::logoutOtherDevices('123456');
-        
+
         return view('login.login');
     }
 
     public function checklogin(LoginPost $request)
     {
         $validated = $request->validated();
-        
-        
+
         $username = $request['username'];
         $password = $request['password'];
         $remember = $request['remember'];
-        
+
         if (Auth::attempt(['username' => $username, 'password' => $password], $remember)) {
             Auth::logoutOtherDevices($password);
             # code...
-            $nameuser = User::find(DB::table('users')->where('username',$username)->value('id'))->toArray();
+            $nameuser = User::find(DB::table('users')->where('username', $username)->value('id'))->toArray();
             // var_dump($nameuser);die;
             session()->put($nameuser);
             return redirect(route('home'));
-        }else {
-            return redirect(route('login'))->with('alert','Sai Tài Khoản Hoặc Mật Khẩu!');
+        } else {
+            return redirect(route('login'))->with('alert', 'Sai Tài Khoản Hoặc Mật Khẩu!');
         }
     }
 
@@ -55,13 +56,13 @@ class LoginController extends Controller
     public function checkChangePass(ChangePasswordPost $request)
     {
         $validated = $request->validated();
-        if(Hash::check($request->password_old, $request->user()->password)) {
-            User::find(auth()->user()->id)->update(['password'=> Hash::make($request->password_new)]);
+        if (Hash::check($request->password_old, $request->user()->password)) {
+            User::find(auth()->user()->id)->update(['password' => Hash::make($request->password_new)]);
             // var_dump(User::find(auth()->user()->id)->update(['password'=> Hash::make($request->password_new)]));die;
-            return redirect(route('changePass'))->with('alert_success','Thay Đổi Mật Khẩu Thành Công!');
-        }else{
+            return redirect(route('changePass'))->with('alert_success', 'Thay Đổi Mật Khẩu Thành Công!');
+        } else {
             // var_dump($request->user()->password);die;
-            return redirect(route('changePass'))->with('alert_error','Sai Tài Khoản Hoặc Mật Khẩu!');
+            return redirect(route('changePass'))->with('alert_error', 'Sai Tài Khoản Hoặc Mật Khẩu!');
         }
     }
 }

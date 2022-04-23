@@ -14,6 +14,7 @@ use App\Http\Requests\ImportPost;
 use PDF;
 
 
+
 class ImportController extends Controller
 {
     /*
@@ -24,9 +25,9 @@ class ImportController extends Controller
     public function index()
     {
         $imps = Import::all();
-        $pros  = Producer:: select('id','pro_name')  ->get();
-        $sups  = Supplies:: all();   
-        $quas  = Quality::  select('id', 'qua_name') ->get();
+        $pros  = Producer::select('id', 'pro_name')->get();
+        $sups  = Supplies::all();
+        $quas  = Quality::select('id', 'qua_name')->get();
         $datas  = $quas;
         return view('chucnang.nhap.index')->with(compact('imps', 'pros', 'sups', 'quas', 'datas'));
     }
@@ -38,7 +39,6 @@ class ImportController extends Controller
      */
     public function create()
     {
-        
     }
 
     /**
@@ -55,7 +55,7 @@ class ImportController extends Controller
         // $x = $imp_code.length();
         // return response()->json($imp_code->imp_code, Response::HTTP_OK);
         try {
-            if(!($imp_code)){
+            if (!($imp_code)) {
                 Import::create([
                     'imp_code' => $request->imp_code,
                     'imp_date' => $request->imp_date,
@@ -82,7 +82,7 @@ class ImportController extends Controller
                 $sup_total = $sup->sup_total + $request->di_into_money;
                 Supplies::where('id', $request->sup_id)->update([
                     'sup_amount' => $amount,
-                    'sup_total' =>$sup_total
+                    'sup_total' => $sup_total
                 ]);
 
                 return response()->json($imp_code, Response::HTTP_OK);
@@ -114,8 +114,6 @@ class ImportController extends Controller
      */
     public function edit($id)
     {
-
-
     }
 
     /**
@@ -141,13 +139,13 @@ class ImportController extends Controller
     {
         $imp_code = Import::where('imp_code', $id)->first();
         $delete_Row = DetailImport::where('imp_id', $imp_code->id)->get();
-        for ($i=1; $i <= count($delete_Row); $i++) { 
-            $data = DetailImport::where('id', $delete_Row[$i-1]->id)->first();
+        for ($i = 1; $i <= count($delete_Row); $i++) {
+            $data = DetailImport::where('id', $delete_Row[$i - 1]->id)->first();
             $sup_id = $data->sup_id;
-            $sup = Supplies::where('id' , $sup_id)->first();
+            $sup = Supplies::where('id', $sup_id)->first();
             $sup_amount = $sup->sup_amount - $data->di_amount;
             $sup_total = $sup->sup_total - $data->di_into_money;
-            Supplies::where('id' , $sup_id)->update([
+            Supplies::where('id', $sup_id)->update([
                 'sup_amount' => $sup_amount,
                 'sup_total' => $sup_total,
             ]);
@@ -163,21 +161,21 @@ class ImportController extends Controller
         $r = $request->all();
         $imp_code = Import::where('imp_code', $request->imp_code)->first();
         $delete_Row = DetailImport::where('imp_id', $imp_code->id)->get();
-        for ($i=1; $i <= count($delete_Row); $i++) { 
-           if($i == $request->index){
-                $data = DetailImport::where('id', $delete_Row[$i-1]->id)->first();
+        for ($i = 1; $i <= count($delete_Row); $i++) {
+            if ($i == $request->index) {
+                $data = DetailImport::where('id', $delete_Row[$i - 1]->id)->first();
                 // $di_amount = $data->di_amount;
                 // $di_into_money = $data->di_into_money;
                 $sup_id = $data->sup_id;
-                $sup = Supplies::where('id' , $sup_id)->first();
+                $sup = Supplies::where('id', $sup_id)->first();
                 $sup_amount = $sup->sup_amount - $data->di_amount;
                 $sup_total = $sup->sup_total - $data->di_into_money;
-                    Supplies::where('id' , $sup_id)->update([
-                        'sup_amount' => $sup_amount,
-                        'sup_total' => $sup_total,
-                    ]);
+                Supplies::where('id', $sup_id)->update([
+                    'sup_amount' => $sup_amount,
+                    'sup_total' => $sup_total,
+                ]);
 
-                $di_id = DetailImport::where('id', $delete_Row[$i-1]->id)->delete();
+                $di_id = DetailImport::where('id', $delete_Row[$i - 1]->id)->delete();
                 return response()->json($di_id, Response::HTTP_OK);
             }
         }
@@ -189,8 +187,9 @@ class ImportController extends Controller
         $imp_code = $request->imp_code;
         $imps = Import::where('imp_code', $imp_code)->first();
         $detail = DetailImport::where('imp_id', $imps->id)->get();
-        $pdf = PDF::loadView('chucnang.nhap.printPDF', compact('imps', 'detail'));
-        return $pdf->download($imp_code.'.pdf');
+        $pdf = app('dompdf.wrapper');
+        $pdf = $pdf->loadView('chucnang.nhap.printPDF', compact('imps', 'detail'));
+        return $pdf->download($imp_code . '.pdf');
         // return View::make($pdf->download($imp_code.'.pdf'));
         // return $pdf->stream();
         // return view('chucnang.nhap.printPDF')->with(compact('imps', 'detail'));
