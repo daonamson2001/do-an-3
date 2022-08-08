@@ -17,6 +17,9 @@ use App\Http\Controllers\ImportController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\NotifiImportController;
 use App\Http\Controllers\NotifiExportController;
+use App\Http\Controllers\InvoiceImportController;
+use App\Http\Controllers\InvoiceExportController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -80,6 +83,26 @@ Route::prefix('chucnang')->middleware('checkLogin')->group(function () {
             Route::post('/maxuat', [NotifiExportController::class, 'postExportCode'])->name('baocao.xuat.postExportCode');
         });
     });
+
+    Route::prefix('invoice')->group(function () {
+        Route::prefix('import')->group(function () {
+            // Quản lý đơn hàng nhập
+            Route::get('', [InvoiceImportController::class, 'create'])->name('invoice.import');
+        
+            // Chi tiết đơn hàng nhập
+            Route::get('/details/{id}', [InvoiceImportController::class, 'show'])->name('invoice.import-details');
+        });
+
+        Route::prefix('export')->group(function () {
+            // Quản lý đơn hàng xuất
+            Route::get('', [InvoiceExportController::class, 'create'])->name('invoice.export');
+        
+            // Chi tiết đơn hàng xuất
+            Route::get('/details/{id}', [InvoiceExportController::class, 'show'])->name('invoice.export-details');
+        });
+    });
+
+
 });
 
 

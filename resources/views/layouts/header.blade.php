@@ -70,6 +70,8 @@
                     <div class="dropdown-menu  " aria-labelledby="navbarBaoCao">
                         <a class="dropdown-item " href="{{ route('baocao.nhap.index') }}">Nhập kho</a>
                         <a class="dropdown-item " href="{{ route('baocao.xuat.index') }}">Xuất kho</a>
+                        <a class="dropdown-item " href="">Đơn nhập</a>
+
                         {{-- <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Something else here</a> --}}
                     </div>
@@ -88,6 +90,21 @@
                     Kho</a>
             </li>
 
+            {{-- Link quản lý đơn hàng xuất --}}
+            <li class="nav-item ">
+                <a href="{{ route('invoice.export') }}" class="nav-link px-2 btn">
+                    <i class="fas fa-file-invoice"></i>
+                    QL xuất kho
+                </a>
+            </li>
+
+            {{-- Link quản lý đơn hàng nhập --}}
+            <li class="nav-item ">
+                <a href="{{ route('invoice.import') }}" class="nav-link px-2 btn">
+                    <i class="fas fa-file-invoice"></i>
+                    QL nhập kho
+                </a>
+            </li>
     </div>
 
     <div class="collapse navbar-collapse " id="collapseThree" aria-labelledby="headingThree" data-parent="#accordion">
