@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Import;
+use PDF;
 
 class InvoiceImportController extends Controller
 {
@@ -12,9 +14,30 @@ class InvoiceImportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $import = Import::query();
+
+        if (isset($request->start_date)) {
+            $import = $import->whereDate('imp_date', '>=', $request->start_date);
+        }
+
+        if (isset($request->end_date)) {
+            $import = $import->whereDate('imp_date', '<=', $request->end_date);
+        }
+
+        $import = $import->select('imports.*', 'users.fullname')
+                        ->join('users', 'users.id', '=', 'imports.user_id')
+                        ->orderByDesc('imports.imp_date')->paginate(4)->appends([
+                            'start_date' => $request->start_date,
+                            'end_date' => $request->end_date
+                        ]);
+                                
+        return view('chucnang.invoice.import.index', [
+            'import' => $import,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+        ]);
     }
 
     /**
@@ -24,11 +47,7 @@ class InvoiceImportController extends Controller
      */
     public function create()
     {
-        $imports = DB::table('imports')
-            ->select('imports.*', 'users.fullname')
-            ->join('users', 'users.id', '=', 'imports.user_id')
-            ->get();
-        return view('chucnang.invoice.import.index', ['imports' => $imports]);
+        
     }
 
     /**
@@ -108,5 +127,18 @@ class InvoiceImportController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function printPDF()
+    {
+        $import = Import::join('users', 'users.id', '=', 'imports.user_id')
+                    ->select('imports.*', 'users.fullname');
+                    
+        $data['arr'] = $import->orderByDesc('imports.imp_date')->get()->toArray();
+        $data['info'] = $import->first()->toArray();
+
+        $pdf = PDF::loadView('chucnang.invoice.import.print', ['data' => $data]);
+    
+        return $pdf->download('phieu_nhap_kho.pdf');
     }
 }

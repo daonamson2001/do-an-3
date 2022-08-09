@@ -68,9 +68,16 @@
                         <i class="far fa-flag"></i> Báo Cáo
                     </a>
                     <div class="dropdown-menu  " aria-labelledby="navbarBaoCao">
-                        <a class="dropdown-item " href="{{ route('baocao.nhap.index') }}">Nhập kho</a>
-                        <a class="dropdown-item " href="{{ route('baocao.xuat.index') }}">Xuất kho</a>
-                        <a class="dropdown-item " href="">Đơn nhập</a>
+                        {{-- Link quản lý đơn hàng xuất --}}
+                        <a class="dropdown-item " href="{{ route('import.index') }}">
+                            Nhập kho
+                        </a>
+
+                        {{-- Link quản lý đơn hàng nhập --}}
+                        <a class="dropdown-item " href="{{ route('export.index') }}">
+                            Xuất kho
+                        </a>
+                        
 
                         {{-- <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Something else here</a> --}}
@@ -88,22 +95,6 @@
             <li class="nav-item ">
                 <a href="{{ route('nhap.index') }}" class="nav-link px-2 btn"><i class="fas fa-file-import"></i> Nhập
                     Kho</a>
-            </li>
-
-            {{-- Link quản lý đơn hàng xuất --}}
-            <li class="nav-item ">
-                <a href="{{ route('invoice.export') }}" class="nav-link px-2 btn">
-                    <i class="fas fa-file-invoice"></i>
-                    QL xuất kho
-                </a>
-            </li>
-
-            {{-- Link quản lý đơn hàng nhập --}}
-            <li class="nav-item ">
-                <a href="{{ route('invoice.import') }}" class="nav-link px-2 btn">
-                    <i class="fas fa-file-invoice"></i>
-                    QL nhập kho
-                </a>
             </li>
     </div>
 

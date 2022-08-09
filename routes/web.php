@@ -85,23 +85,14 @@ Route::prefix('chucnang')->middleware('checkLogin')->group(function () {
     });
 
     Route::prefix('invoice')->group(function () {
-        Route::prefix('import')->group(function () {
-            // Quản lý đơn hàng nhập
-            Route::get('', [InvoiceImportController::class, 'create'])->name('invoice.import');
-        
-            // Chi tiết đơn hàng nhập
-            Route::get('/details/{id}', [InvoiceImportController::class, 'show'])->name('invoice.import-details');
-        });
+        Route::resource('import', InvoiceImportController::class);
 
-        Route::prefix('export')->group(function () {
-            // Quản lý đơn hàng xuất
-            Route::get('', [InvoiceExportController::class, 'create'])->name('invoice.export');
-        
-            // Chi tiết đơn hàng xuất
-            Route::get('/details/{id}', [InvoiceExportController::class, 'show'])->name('invoice.export-details');
-        });
+        Route::get('import-print', [InvoiceImportController::class, 'printPDF'])->name('import.print');
+
+        Route::resource('export', InvoiceExportController::class);
+
+        Route::get('export-print', [InvoiceExportController::class, 'printPDF'])->name('export.print');
     });
-
 
 });
 

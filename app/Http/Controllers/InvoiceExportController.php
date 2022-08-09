@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Export;
+use PDF;
 
 class InvoiceExportController extends Controller
 {
@@ -12,9 +14,30 @@ class InvoiceExportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $export = Export::query();
+
+        if (isset($request->start_date)) {
+            $export = $export->whereDate('exp_date', '>=', $request->start_date);
+        }
+
+        if (isset($request->end_date)) {
+            $export = $export->whereDate('exp_date', '<=', $request->end_date);
+        }
+
+        $export = $export->select('exports.*', 'users.fullname')
+                        ->join('users', 'users.id', '=', 'exports.user_id')
+                        ->orderByDesc('exports.exp_date')->paginate(4)->appends([
+                            'start_date' => $request->start_date,
+                            'end_date' => $request->end_date
+                        ]);
+
+        return view('chucnang.invoice.export.index', [
+            'export' => $export,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+        ]);
     }
 
     /**
@@ -24,11 +47,7 @@ class InvoiceExportController extends Controller
      */
     public function create()
     {
-        $exports = DB::table('exports')
-            ->select('exports.*', 'users.fullname')
-            ->join('users', 'users.id', '=', 'exports.user_id')
-            ->get();
-        return view('chucnang.invoice.export.index', ['exports' => $exports]);
+        
     }
 
     /**
@@ -105,5 +124,18 @@ class InvoiceExportController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function printPDF()
+    {
+        $export = Export::select('exports.*', 'users.fullname')
+                        ->join('users', 'users.id', '=', 'exports.user_id');
+                    
+        $data['arr'] = $export->orderByDesc('exports.exp_date')->get()->toArray();
+        $data['info'] = $export->first()->toArray();
+
+        $pdf = PDF::loadView('chucnang.invoice.export.print', ['data' => $data]);
+    
+        return $pdf->download('phieu_xuat_kho.pdf');
     }
 }

@@ -14,6 +14,20 @@
                 <div class="card">
                     <h5 class="card-header text-center">QUẢN LÝ NHẬP KHO</h5>
                     <div class="card-body">
+                        <div class="d-flex flex-column">
+                            <form action="{{route('import.index')}}" method="get" class="d-flex justify-content-between align-items-center mb-3">
+                                <label class="text-nowrap mr-2" for="startDate">Từ ngày:</label>
+                                <input type="date" name="start_date" value="{{$start_date}}" class="form-control text-nowrap mr-2" id="startDate">
+                                    
+                                <label class="text-nowrap mr-2" for="endDate">Tới ngày:</label>
+                                <input type="date" name="end_date" value="{{$end_date}}" class="form-control text-nowrap mr-2" id="endDate">
+                                
+                                <button class="btn btn-secondary">Tìm kiếm</button>
+                            </form>
+                            <div class="mb-3">
+                                <a class="btn btn-secondary" href="{{route('import.print')}}">Lưu lại</a>
+                            </div>
+                        </div>
                         <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
@@ -26,7 +40,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($imports as $key => $item)
+                                @foreach($import as $key => $item)
                                     <tr>
                                         <th scope="row">{{$key + 1}}</th>
                                         <td>{{$item->fullname}}</td>
@@ -34,7 +48,7 @@
                                         <td>{{\Carbon\Carbon::parse($item->imp_date)->format('d/m/Y')}}</td>
                                         <td>{{number_format($item->imp_total)}}</td>
                                         <td>
-                                            <a class="btn btn-dark" href="{{route('invoice.import-details', $item->id)}}">
+                                            <a class="btn btn-dark" href="{{route('import.show', $item->id)}}">
                                                 <i class="fas fa-info-circle"></i>
                                             </a>
                                         </td>
@@ -42,6 +56,9 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="">
+                            {{ $import->links() }}
+                        </div>
                     </div>
                 </div>
                 
