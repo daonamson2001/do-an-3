@@ -14,6 +14,7 @@
                                     <th scope="col">STT</th>
                                     <th scope="col">Tên vật tư</th>
                                     <th scope="col">Tồn kho</th>
+                                    <th scope="col">Đơn vị</th>
                                     <th scope="col">SL Đã bán</th>
                                     <th scope="col">Tổng đã bán</th>
                                     <th scope="col"></th>
@@ -25,6 +26,7 @@
                                         <th scope="row">{{$key + 1}}</th>
                                         <td>{{$item->sup_name}}</td>
                                         <td>{{$item->sup_amount}}</td>
+                                        <td>{{$item->unit_name}}</td>
                                         <td>{{$item->quantity_sold}}</td>
                                         <td>{{number_format($item->total_sold)}}</td>
 

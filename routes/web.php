@@ -20,6 +20,8 @@ use App\Http\Controllers\NotifiExportController;
 use App\Http\Controllers\InvoiceImportController;
 use App\Http\Controllers\InvoiceExportController;
 use App\Http\Controllers\InventoryManagementController;
+use App\Http\Controllers\HomeController;
+
 
 
 /*
@@ -46,9 +48,7 @@ Route::get('postforget', function () {
     return view('login.forgetpass');
 })->name('forgetpass');
 
-Route::get('home', function () {
-    return view('layouts.main');
-})->name('home')->middleware('checkLogin');
+Route::resource('home', HomeController::class)->middleware('checkLogin');
 
 Route::prefix('hethong')->middleware('checkLogin')->group(function () {
     Route::resource('dangky',    RegistrationController::class)->only(['index', 'store']);

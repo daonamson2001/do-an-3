@@ -1,7 +1,32 @@
 @extends('master')
 
 @section('content')
-    <div class="row">
+    <div id="container"></div>
+    
+    <script src="{{ asset('js\anychart\anychart-core.min.js') }}"></script>
+    <script src="{{ asset('js\anychart\anychart-pie.min.js') }}"></script>
+
+    <script>
+        // create data
+        var data = [
+        {x: "A", value: 637166},
+        {x: "B", value: 721630},
+        {x: "C", value: 148662},
+        {x: "D", value: 78662},
+        {x: "E", value: 90000}
+        ];
+
+        // create a chart and set the data
+        chart = anychart.pie(data);
+
+        // set the container id
+        chart.container("container");
+
+        // initiate drawing the chart
+        chart.draw();
+    </script>
+    
+    {{-- <div class="row">
         <div class="col-sm-4">
             <h2>Điện - Điện nước ĐNS</h2>
             <h5>Trung tâm điều hành điện - điện nước:</h5>
@@ -43,5 +68,5 @@
 
             <br>
         </div>
-    </div>
+    </div> --}}
 @endsection

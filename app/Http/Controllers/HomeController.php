@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Supplies;
-use Illuminate\Support\Facades\DB;
 
-
-class InventoryManagementController extends Controller
+class HomeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,24 +13,7 @@ class InventoryManagementController extends Controller
      */
     public function index()
     {
-        $data = Supplies::select(
-                'supplies.id',
-                'supplies.sup_name',
-                'supplies.sup_amount',
-                'units.unit_name',
-                DB::raw('SUM(detail_exports.de_amount) as quantity_sold'),
-                DB::raw('SUM(detail_exports.de_into_money) as total_sold')
-            )
-            ->leftJoin('detail_exports', 'detail_exports.sup_id', '=', 'supplies.id')
-            ->leftJoin('units', 'units.id', '=', 'supplies.unit_id')
-            ->groupBy(
-                'supplies.id', 
-                'supplies.sup_name', 
-                'supplies.sup_amount', 
-                'units.unit_name'
-            )
-            ->get();
-        return view('chucnang.inventory_management.index', ['data' => $data]);
+        return view('layouts.main');
     }
 
     /**

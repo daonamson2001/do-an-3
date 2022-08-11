@@ -35,7 +35,7 @@ class LoginController extends Controller
             $nameuser = User::find(DB::table('users')->where('username', $username)->value('id'))->toArray();
             // var_dump($nameuser);die;
             session()->put($nameuser);
-            return redirect(route('home'));
+            return redirect(route('home.index'));
         } else {
             return redirect(route('login'))->with('alert', 'Sai Tài Khoản Hoặc Mật Khẩu!');
         }
