@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Import;
+use App\Models\DetailImport;
 use PDF;
 
 class InvoiceImportController extends Controller
@@ -71,7 +72,7 @@ class InvoiceImportController extends Controller
     {
         if (DB::table('detail_exports')->where('exp_id', $id)->exists()) {
             $user = DB::table('detail_imports')
-                ->select('users.*', 'imports.imp_code', 'imports.imp_date', 'imports.imp_total')
+                ->select('imports.id', 'users.fullname', 'imports.imp_code', 'imports.imp_date', 'imports.imp_total')
                 ->join('imports', 'imports.id', '=', 'detail_imports.imp_id')
                 ->join('users', 'users.id', '=', 'imports.user_id')
                 ->where('imp_id', $id)
@@ -86,6 +87,8 @@ class InvoiceImportController extends Controller
                 ->join('units', 'units.id', '=', 'supplies.unit_id')
                 ->where('imp_id', $id)
                 ->get();
+            
+            // dd($user);
                 
             return view('chucnang.invoice.import.details', [
                 'user' => $user, 
@@ -129,16 +132,25 @@ class InvoiceImportController extends Controller
         //
     }
 
-    public function printPDF()
+    public function printPDF($id)
     {
-        $import = Import::join('users', 'users.id', '=', 'imports.user_id')
-                    ->select('imports.*', 'users.fullname');
-                    
-        $data['arr'] = $import->orderByDesc('imports.imp_date')->get()->toArray();
-        $data['info'] = $import->first()->toArray();
+        $data['arr'] = Import::join('detail_imports', 'detail_imports.imp_id', '=', 'imports.id')
+                    ->join('supplies', 'supplies.id', '=', 'detail_imports.sup_id')
+                    ->select('detail_imports.id', 'supplies.sup_name', 'detail_imports.di_amount', 'detail_imports.di_price', 'detail_imports.di_into_money')
+                    ->orderByDesc('imports.imp_date')
+                    ->where('detail_imports.imp_id', $id)
+                    ->get()
+                    ->toArray();
+        
+        $data['info'] = Import::join('detail_imports', 'detail_imports.imp_id', '=', 'imports.id')
+                    ->join('users', 'users.id', '=', 'imports.user_id')
+                    ->select('imports.id', 'users.fullname', 'imports.imp_code', 'imports.imp_date', 'imports.imp_total')
+                    ->where('imports.id', $id)
+                    ->first()
+                    ->toArray();
 
         $pdf = PDF::loadView('chucnang.invoice.import.print', ['data' => $data]);
     
-        return $pdf->download('phieu_nhap_kho.pdf');
+        return $pdf->download("phieu_nhap_".$data['info']['imp_code'].".pdf");
     }
 }

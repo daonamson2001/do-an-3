@@ -38,7 +38,12 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <h6>Nhập,Ngày lập: <span class="font-weight-normal">{{\Carbon\Carbon::parse($user->exp_date)->format('d/m/Y')}}</span></h6>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h6>Nhập,Ngày lập: <span class="font-weight-normal">{{\Carbon\Carbon::parse($user->exp_date)->format('d/m/Y')}}</span></h6>
+                            <div class="mb-3">
+                                <a class="btn btn-secondary" href="{{route('export.print', $user->id)}}">Lưu lại</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 

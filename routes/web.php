@@ -87,11 +87,11 @@ Route::prefix('chucnang')->middleware('checkLogin')->group(function () {
     Route::prefix('invoice')->group(function () {
         Route::resource('import', InvoiceImportController::class);
 
-        Route::get('import-print', [InvoiceImportController::class, 'printPDF'])->name('import.print');
+        Route::get('import-print/{id}', [InvoiceImportController::class, 'printPDF'])->name('import.print');
 
         Route::resource('export', InvoiceExportController::class);
 
-        Route::get('export-print', [InvoiceExportController::class, 'printPDF'])->name('export.print');
+        Route::get('export-print/{id}', [InvoiceExportController::class, 'printPDF'])->name('export.print');
     });
 
 });

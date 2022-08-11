@@ -24,9 +24,6 @@
                                 
                                 <button class="btn btn-secondary">Tìm kiếm</button>
                             </form>
-                            <div class="mb-3">
-                                <a class="btn btn-secondary" href="{{route('export.print')}}">Lưu lại</a>
-                            </div>
                         </div>
                         <table class="table table-bordered table-hover">
                             <thead>

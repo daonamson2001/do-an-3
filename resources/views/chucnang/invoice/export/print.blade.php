@@ -50,10 +50,10 @@
         <thead>
             <tr>
                 <td style="border:thin solid;" ><strong>STT</strong></td>
-                <td style="border:thin solid;" ><strong>Người dùng</strong></td>
-                <td style="border:thin solid;" ><strong>Mã phiếu</strong></td>
-                <td style="border:thin solid;" ><strong>Ngày</strong></td>
-                <td style="border:thin solid;" ><strong>Tổng tiền</strong></td>
+                <td style="border:thin solid;" ><strong>Vật tư</strong></td>
+                <td style="border:thin solid;" ><strong>Số lượng</strong></td>
+                <td style="border:thin solid;" ><strong>Đơn giá</strong></td>
+                <td style="border:thin solid;" ><strong>Thành tiền</strong></td>
             </tr>
         </thead>
         <tbody>
@@ -62,24 +62,23 @@
                 $total =0;
             ?>
             @foreach ($data['arr'] as $item)
-                <?php $total += $item['exp_total'] ?>
                 <tr>
                     <td style="border:thin solid;">{!! $count = $count + 1 !!}</td>
                     
                     <td style="border:thin solid;">
-                        {{$item['fullname']}}
+                        {{$item['sup_name']}}
                     </td>
 
                     <td style="border:thin solid;">
-                        {{$item['exp_code']}}
+                        {{$item['de_amount']}}
                     </td>
 
                     <td style="border:thin solid;">
-                        {{\Carbon\Carbon::parse($item['exp_date'])->format('d/m/Y')}}
+                        {{number_format($item['de_price'])}}
                     </td>
 
                     <td style="border:thin solid;">
-                        {{number_format($item['exp_total'])}}
+                        {{number_format($item['de_into_money'])}}
                     </td>
                 </tr>
             @endforeach
@@ -89,7 +88,7 @@
     <table class="sumary-table" style="margin-top:30px;">
         <tr>
             <td>Tổng giá trị nhập:</td>
-            <td><?= number_format($total) ?> VND</td>
+            <td>{{number_format($data['info']['exp_total'])}} VND</td>
         </tr>
     </table><br>
     <table style="margin-bottom:30px;">

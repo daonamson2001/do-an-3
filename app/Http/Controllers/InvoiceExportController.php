@@ -71,7 +71,7 @@ class InvoiceExportController extends Controller
     {
         if (DB::table('detail_exports')->where('exp_id', $id)->exists()) {
             $user = DB::table('detail_exports')
-            ->select('users.*', 'exports.exp_code', 'exports.exp_date', 'exports.exp_total')
+            ->select('exports.id', 'users.fullname', 'exports.exp_code', 'exports.exp_date', 'exports.exp_total')
             ->join('exports', 'exports.id', '=', 'detail_exports.exp_id')
             ->join('users', 'users.id', '=', 'exports.user_id')
             ->where('exp_id', $id)
@@ -126,16 +126,23 @@ class InvoiceExportController extends Controller
         //
     }
 
-    public function printPDF()
+    public function printPDF($id)
     {
-        $export = Export::select('exports.*', 'users.fullname')
-                        ->join('users', 'users.id', '=', 'exports.user_id');
-                    
-        $data['arr'] = $export->orderByDesc('exports.exp_date')->get()->toArray();
-        $data['info'] = $export->first()->toArray();
+        $data['arr'] = Export::join('detail_exports', 'detail_exports.exp_id', '=', 'exports.id')
+                    ->join('supplies', 'supplies.id', '=', 'detail_exports.sup_id')
+                    ->select('detail_exports.id', 'supplies.sup_name', 'detail_exports.de_amount', 'detail_exports.de_price', 'detail_exports.de_into_money')
+                    ->orderByDesc('exports.exp_date')
+                    ->where('detail_exports.exp_id', $id)
+                    ->get();
 
+        $data['info'] = Export::join('detail_exports', 'detail_exports.exp_id', '=', 'exports.id')
+                    ->join('users', 'users.id', '=', 'exports.user_id')
+                    ->select('exports.id', 'users.fullname', 'exports.exp_code', 'exports.exp_date', 'exports.exp_total')
+                    ->where('exports.id', $id)
+                    ->first();
+                    
         $pdf = PDF::loadView('chucnang.invoice.export.print', ['data' => $data]);
     
-        return $pdf->download('phieu_xuat_kho.pdf');
+        return $pdf->download("phieu_xuat_".$data['info']['exp_code'].".pdf");
     }
 }
