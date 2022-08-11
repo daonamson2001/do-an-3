@@ -1,23 +1,70 @@
 @extends('master')
 
 @section('content')
-    <div id="container"></div>
+    <form class="d-flex" action="{{route('home.index')}}" method="get">
+        <select class="form-control" name="month" value="{{$month}}">
+            <option selected>Chọn tháng</option>
+            <option value="1">
+                Tháng - 1
+            </option>
+            <option value="2">
+                Tháng - 2
+            </option>
+            <option value="3">
+                Tháng - 3
+            </option>
+            <option value="4">
+                Tháng - 4
+            </option>
+            <option value="5">
+                Tháng - 5
+            </option>
+            <option value="6">
+                Tháng - 6
+            </option>
+            <option value="7">
+                Tháng - 7
+            </option>
+            <option value="8">
+                Tháng - 8
+            </option>
+            <option value="9">
+                Tháng - 9
+            </option>
+            <option value="10">
+                Tháng - 10
+            </option>
+            <option value="11">
+                Tháng - 11
+            </option>
+            <option value="12">
+                Tháng - 12
+            </option>
+        </select>
+        <button class="btn btn-secondary">Tìm</button>
+    </form>
+
+    <div id="container" class="my-5" style="width:555px; height: 555px;"></div>
     
     <script src="{{ asset('js\anychart\anychart-core.min.js') }}"></script>
     <script src="{{ asset('js\anychart\anychart-pie.min.js') }}"></script>
 
     <script>
         // create data
-        var data = [
-        {x: "A", value: 637166},
-        {x: "B", value: 721630},
-        {x: "C", value: 148662},
-        {x: "D", value: 78662},
-        {x: "E", value: 90000}
-        ];
+        var data = {!! $data !!};
+        var arr = [];
+
+        data.forEach(el => {
+            arr.push({
+                x: el.sup_name,
+                value: el.total_sold,
+            })
+        });
+        
+        console.log(arr);
 
         // create a chart and set the data
-        chart = anychart.pie(data);
+        chart = anychart.pie(arr);
 
         // set the container id
         chart.container("container");

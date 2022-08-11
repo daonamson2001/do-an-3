@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Models\Supplies;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -11,9 +14,37 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('layouts.main');
+        $month = Carbon::now()->month;
+
+        if ($request->month) {
+            $month = $request->month;
+        }
+
+        $data = Supplies::select(
+            'supplies.id',
+            'supplies.sup_name',
+            DB::raw('SUM(detail_exports.de_into_money) as total_sold')
+        )
+        ->leftJoin('detail_exports', 'detail_exports.sup_id', '=', 'supplies.id')
+        ->join('exports', 'exports.id', '=', 'detail_exports.exp_id')
+        ->groupBy(
+            'supplies.id', 
+            'supplies.sup_name', 
+        )
+        ->whereMonth('exports.exp_date', $month)
+        ->get()
+        ->toArray();
+
+        // dd($data);
+
+        $data_json = json_encode($data);
+        
+        return view('layouts.main', [
+            'data' => $data_json,
+            'month' => $month
+        ]);
     }
 
     /**
