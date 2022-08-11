@@ -19,6 +19,8 @@ use App\Http\Controllers\NotifiImportController;
 use App\Http\Controllers\NotifiExportController;
 use App\Http\Controllers\InvoiceImportController;
 use App\Http\Controllers\InvoiceExportController;
+use App\Http\Controllers\InventoryManagementController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -94,6 +96,8 @@ Route::prefix('chucnang')->middleware('checkLogin')->group(function () {
         Route::get('export-print/{id}', [InvoiceExportController::class, 'printPDF'])->name('export.print');
     });
 
+    Route::resource('inventory-management', InventoryManagementController::class);
+    
 });
 
 

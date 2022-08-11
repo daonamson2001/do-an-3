@@ -96,6 +96,13 @@
                 <a href="{{ route('nhap.index') }}" class="nav-link px-2 btn"><i class="fas fa-file-import"></i> Nhập
                     Kho</a>
             </li>
+
+            <li class="nav-item ">
+                <a href="{{ route('inventory-management.index') }}" class="nav-link px-2 btn">
+                    <i class="fas fa-box"></i>
+                    QL Kho
+                </a>
+            </li>
     </div>
 
     <div class="collapse navbar-collapse " id="collapseThree" aria-labelledby="headingThree" data-parent="#accordion">
