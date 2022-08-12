@@ -12,15 +12,8 @@
                 @endif
 
                 <form class="d-flex mx-auto" style="width: 500px" action="{{route('home.index')}}" method="get">
-                    <select class="form-control mr-2" name="month" value="{{$month}}">
-                        <?php $y = 13 ?>
-                        @for ($i = 1; $i < $y; $i++)
-                            <option value="{{$i}}" {{$month == $i ? 'selected' : ''}}>
-                                Tháng - {{$i}}
-                            </option>
-                        @endfor
-                    </select>
-                    <button class="btn btn-secondary">Tìm</button>
+                    <input class="form-control mr-2" type="month" name="monthYear" value="{{$monthYear}}">
+                    <button class="btn btn-secondary">Lọc</button>
                 </form>
 
                 <div id="container" class="my-3 mx-auto" style="width:500px; height: 500px;"></div>

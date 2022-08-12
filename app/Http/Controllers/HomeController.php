@@ -16,11 +16,15 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $month = Carbon::now()->month;
+        $monthYear = Carbon::now()->format('Y-m');
 
-        if ($request->month) {
-            $month = $request->month;
+        if ($request->monthYear) {
+            $monthYear = $request->monthYear;
         }
+
+        $day_first_month = $monthYear.'-01';
+
+        $day_last_month = date($monthYear.'-t');
 
         $data = Supplies::select(
             'supplies.id',
@@ -33,7 +37,8 @@ class HomeController extends Controller
             'supplies.id', 
             'supplies.sup_name', 
         )
-        ->whereMonth('exports.exp_date', $month)
+        ->whereDate('exports.exp_date', '>=', $day_first_month)
+        ->whereDate('exports.exp_date', '<=', $day_last_month)
         ->get()
         ->toArray();
 
@@ -42,13 +47,13 @@ class HomeController extends Controller
         if (empty($data)) {
             return view('layouts.main', [
                 'data' => $data_json,
-                'month' => $month,
+                'monthYear' => $monthYear,
             ])->with('empty', 'Tháng này không có hoạt động gì!');
         }
         
         return view('layouts.main', [
             'data' => $data_json,
-            'month' => $month
+            'monthYear' => $monthYear
         ])->with('empty', '');
     }
 
