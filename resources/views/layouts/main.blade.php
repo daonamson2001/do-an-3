@@ -1,50 +1,33 @@
 @extends('master')
 
 @section('content')
-    <form class="d-flex" action="{{route('home.index')}}" method="get">
-        <select class="form-control" name="month" value="{{$month}}">
-            <option selected>Chọn tháng</option>
-            <option value="1">
-                Tháng - 1
-            </option>
-            <option value="2">
-                Tháng - 2
-            </option>
-            <option value="3">
-                Tháng - 3
-            </option>
-            <option value="4">
-                Tháng - 4
-            </option>
-            <option value="5">
-                Tháng - 5
-            </option>
-            <option value="6">
-                Tháng - 6
-            </option>
-            <option value="7">
-                Tháng - 7
-            </option>
-            <option value="8">
-                Tháng - 8
-            </option>
-            <option value="9">
-                Tháng - 9
-            </option>
-            <option value="10">
-                Tháng - 10
-            </option>
-            <option value="11">
-                Tháng - 11
-            </option>
-            <option value="12">
-                Tháng - 12
-            </option>
-        </select>
-        <button class="btn btn-secondary">Tìm</button>
-    </form>
+    <div class="container bg-white py-5">
+        <div class="row">
+            <div class="col">
+                @if($empty)
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        {{$empty}}
+                    </div>
+                @endif
 
-    <div id="container" class="my-5" style="width:555px; height: 555px;"></div>
+                <form class="d-flex mx-auto" style="width: 500px" action="{{route('home.index')}}" method="get">
+                    <select class="form-control mr-2" name="month" value="{{$month}}">
+                        <?php $y = 13 ?>
+                        @for ($i = 1; $i < $y; $i++)
+                            <option value="{{$i}}" {{$month == $i ? 'selected' : ''}}>
+                                Tháng - {{$i}}
+                            </option>
+                        @endfor
+                    </select>
+                    <button class="btn btn-secondary">Tìm</button>
+                </form>
+
+                <div id="container" class="my-3 mx-auto" style="width:500px; height: 500px;"></div>
+            </div>
+        </div>
+    </div>
+    
     
     <script src="{{ asset('js\anychart\anychart-core.min.js') }}"></script>
     <script src="{{ asset('js\anychart\anychart-pie.min.js') }}"></script>

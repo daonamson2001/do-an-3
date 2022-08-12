@@ -37,14 +37,19 @@ class HomeController extends Controller
         ->get()
         ->toArray();
 
-        // dd($data);
-
         $data_json = json_encode($data);
+
+        if (empty($data)) {
+            return view('layouts.main', [
+                'data' => $data_json,
+                'month' => $month,
+            ])->with('empty', 'Tháng này không có hoạt động gì!');
+        }
         
         return view('layouts.main', [
             'data' => $data_json,
             'month' => $month
-        ]);
+        ])->with('empty', '');
     }
 
     /**
