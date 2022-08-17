@@ -17,6 +17,13 @@ use App\Http\Controllers\ImportController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\NotifiImportController;
 use App\Http\Controllers\NotifiExportController;
+use App\Http\Controllers\InvoiceImportController;
+use App\Http\Controllers\InvoiceExportController;
+use App\Http\Controllers\InventoryManagementController;
+use App\Http\Controllers\HomeController;
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,9 +48,7 @@ Route::get('postforget', function () {
     return view('login.forgetpass');
 })->name('forgetpass');
 
-Route::get('home', function () {
-    return view('layouts.main');
-})->name('home')->middleware('checkLogin');
+Route::resource('home', HomeController::class)->middleware('checkLogin');
 
 Route::prefix('hethong')->middleware('checkLogin')->group(function () {
     Route::resource('dangky',    RegistrationController::class)->only(['index', 'store']);
@@ -80,6 +85,19 @@ Route::prefix('chucnang')->middleware('checkLogin')->group(function () {
             Route::post('/maxuat', [NotifiExportController::class, 'postExportCode'])->name('baocao.xuat.postExportCode');
         });
     });
+
+    Route::prefix('invoice')->group(function () {
+        Route::resource('import', InvoiceImportController::class);
+
+        Route::get('import-print/{id}', [InvoiceImportController::class, 'printPDF'])->name('import.print');
+
+        Route::resource('export', InvoiceExportController::class);
+
+        Route::get('export-print/{id}', [InvoiceExportController::class, 'printPDF'])->name('export.print');
+    });
+
+    Route::resource('inventory-management', InventoryManagementController::class);
+    
 });
 
 

@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark border-bottom border-secondary">
-    <a class="navbar-brand pl-2" href="{{ route('home') }}">Trang Chủ</a>
+    <a class="navbar-brand pl-2" href="{{ route('home.index') }}">Trang Chủ</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -68,8 +68,17 @@
                         <i class="far fa-flag"></i> Báo Cáo
                     </a>
                     <div class="dropdown-menu  " aria-labelledby="navbarBaoCao">
-                        <a class="dropdown-item " href="{{ route('baocao.nhap.index') }}">Nhập kho</a>
-                        <a class="dropdown-item " href="{{ route('baocao.xuat.index') }}">Xuất kho</a>
+                        {{-- Link quản lý đơn hàng xuất --}}
+                        <a class="dropdown-item " href="{{ route('import.index') }}">
+                            Nhập kho
+                        </a>
+
+                        {{-- Link quản lý đơn hàng nhập --}}
+                        <a class="dropdown-item " href="{{ route('export.index') }}">
+                            Xuất kho
+                        </a>
+                        
+
                         {{-- <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Something else here</a> --}}
                     </div>
@@ -88,6 +97,12 @@
                     Kho</a>
             </li>
 
+            <li class="nav-item ">
+                <a href="{{ route('inventory-management.index') }}" class="nav-link px-2 btn">
+                    <i class="fas fa-box"></i>
+                    QL Kho
+                </a>
+            </li>
     </div>
 
     <div class="collapse navbar-collapse " id="collapseThree" aria-labelledby="headingThree" data-parent="#accordion">
